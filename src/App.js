@@ -1,28 +1,50 @@
 import React from 'react';
-import './App.css';
-
-const hospitals = [
-  { name: "The Ottawa Hospital - General Campus", waitTime: "3h 20m", updated: "10 min ago" },
-  { name: "CHEO", waitTime: "1h 45m", updated: "5 min ago" },
-  { name: "Montfort Hospital", waitTime: "2h 30m", updated: "15 min ago" },
-];
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import SubmissionForm from './components/SubmissionForm';
+import WaitTimesList from './components/WaitTimesList';
+import WaitTimeTrends from './components/WaitTimeTrends';  // <-- added import
+import AdminPage from './components/AdminPage';
+import Navbar from './components/Navbar';
 
 function App() {
   return (
-    <div className="app">
-      <header>
-        <h1>Ottawa ER Wait Times</h1>
-      </header>
-      <div className="hospital-list">
-        {hospitals.map((hospital, index) => (
-          <div key={index} className="hospital-card">
-            <h2>{hospital.name}</h2>
-            <p><strong>Wait Time:</strong> {hospital.waitTime}</p>
-            <p><em>Last updated: {hospital.updated}</em></p>
-          </div>
-        ))}
+    <Router>
+      <div className="App">
+        <Navbar />
+        <div className="content-container">
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  <h1>Ottawa ER Wait Times</h1>
+
+                  <div className="card">
+                    <WaitTimesList />
+                  </div>
+
+                  <div className="card">
+                    <WaitTimeTrends />  {/* <-- added trends here */}
+                  </div>
+
+                  <div className="card">
+                    <SubmissionForm />
+                  </div>
+                </>
+              }
+            />
+            <Route
+              path="/admin"
+              element={
+                <div className="card admin-card">
+                  <AdminPage />
+                </div>
+              }
+            />
+          </Routes>
+        </div>
       </div>
-    </div>
+    </Router>
   );
 }
 
