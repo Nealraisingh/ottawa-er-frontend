@@ -2,9 +2,11 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SubmissionForm from './components/SubmissionForm';
 import WaitTimesList from './components/WaitTimesList';
-import WaitTimeTrends from './components/WaitTimeTrends';  // <-- added import
 import AdminPage from './components/AdminPage';
+import WaitTimeTrends from './components/WaitTimeTrends';
 import Navbar from './components/Navbar';
+import TrendsPage from "./pages/TrendsPage";
+
 
 function App() {
   return (
@@ -18,15 +20,9 @@ function App() {
               element={
                 <>
                   <h1>Ottawa ER Wait Times</h1>
-
                   <div className="card">
                     <WaitTimesList />
                   </div>
-
-                  <div className="card">
-                    <WaitTimeTrends />  {/* <-- added trends here */}
-                  </div>
-
                   <div className="card">
                     <SubmissionForm />
                   </div>
@@ -38,6 +34,14 @@ function App() {
               element={
                 <div className="card admin-card">
                   <AdminPage />
+                </div>
+              }
+            />
+            <Route
+              path="/trends"
+              element={
+                <div className="card trends-card">
+                  <WaitTimeTrends />
                 </div>
               }
             />

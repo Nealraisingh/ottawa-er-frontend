@@ -21,5 +21,7 @@ function App() {
     </div>
   );
 }
+]
 
 export default App;
+//helloy my name is huy nguyen
