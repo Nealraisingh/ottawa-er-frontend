@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import {
   BarChart,
   Bar,
+  LineChart,
+  Line,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -11,6 +13,7 @@ import {
 
 const TrendsPage = () => {
   const [trends, setTrends] = useState(null);
+  const [chartType, setChartType] = useState("bar");
 
   const backendUrl =
     process.env.NODE_ENV === "development"
@@ -54,6 +57,18 @@ const TrendsPage = () => {
         ER Wait Time Trends (Averages by Day)
       </h1>
 
+      <div className="flex justify-center mb-6">
+        <label className="mr-2 font-medium">Chart type:</label>
+        <select
+          value={chartType}
+          onChange={(e) => setChartType(e.target.value)}
+          className="border rounded px-2 py-1"
+        >
+          <option value="bar">Bar Chart</option>
+          <option value="line">Line Chart</option>
+        </select>
+      </div>
+
       <div className="space-y-12 max-w-6xl mx-auto">
         {Object.keys(trends).map(hospital => {
           const chartData = daysOrder.map(day => ({
@@ -71,13 +86,29 @@ const TrendsPage = () => {
               </h2>
 
               <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={chartData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="day" />
-                  <YAxis />
-                  <Tooltip formatter={(value) => formatTime(value)} />
-                  <Bar dataKey="waitTime" fill="#3b82f6" />
-                </BarChart>
+                {chartType === "bar" ? (
+                  <BarChart data={chartData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="day" />
+                    <YAxis />
+                    <Tooltip formatter={(value) => formatTime(value)} />
+                    <Bar dataKey="waitTime" fill="#3b82f6" />
+                  </BarChart>
+                ) : (
+                  <LineChart data={chartData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="day" />
+                    <YAxis />
+                    <Tooltip formatter={(value) => formatTime(value)} />
+                    <Line
+                      type="monotone"
+                      dataKey="waitTime"
+                      stroke="#3b82f6"
+                      strokeWidth={2}
+                      dot={{ r: 4 }}
+                    />
+                  </LineChart>
+                )}
               </ResponsiveContainer>
             </div>
           );
