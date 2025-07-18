@@ -3,15 +3,13 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SubmissionForm from './components/SubmissionForm';
 import WaitTimesList from './components/WaitTimesList';
 import AdminPage from './components/AdminPage';
-import WaitTimeTrends from './components/WaitTimeTrends';
 import Navbar from './components/Navbar';
 import TrendsPage from "./pages/TrendsPage";
-
 
 function App() {
   return (
     <Router>
-      <div className="App">
+      <div className="min-h-screen bg-gray-100">
         <Navbar />
         <div className="content-container">
           <Routes>
@@ -19,12 +17,17 @@ function App() {
               path="/"
               element={
                 <>
-                  <h1>Ottawa ER Wait Times</h1>
-                  <div className="card">
-                    <WaitTimesList />
-                  </div>
-                  <div className="card">
-                    <SubmissionForm />
+                  <h1 className="text-3xl font-bold text-center text-blue-800 mt-6">
+                    Ottawa ER Wait Times
+                  </h1>
+
+                  <div className="max-w-4xl mx-auto grid gap-6 mt-8">
+                    <div className="bg-white shadow-md rounded-lg p-6">
+                      <WaitTimesList />
+                    </div>
+                    <div className="bg-white shadow-md rounded-lg p-6">
+                      <SubmissionForm />
+                    </div>
                   </div>
                 </>
               }
@@ -32,7 +35,7 @@ function App() {
             <Route
               path="/admin"
               element={
-                <div className="card admin-card">
+                <div className="max-w-3xl mx-auto bg-white shadow-md rounded-lg p-6 mt-6">
                   <AdminPage />
                 </div>
               }
@@ -40,9 +43,7 @@ function App() {
             <Route
               path="/trends"
               element={
-                <div className="card trends-card">
-                  <WaitTimeTrends />
-                </div>
+                <TrendsPage />
               }
             />
           </Routes>
