@@ -5,7 +5,7 @@ const TrendsPage = () => {
   const [trends, setTrends] = useState(null);
 
   useEffect(() => {
-    fetch("/api/trends")
+    fetch("https://ottawa-er-backend.onrender.com/api/trends")
       .then(res => res.json())
       .then(data => setTrends(data))
       .catch(err => console.error("Failed to fetch trends:", err));
