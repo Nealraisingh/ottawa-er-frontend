@@ -1,15 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer
+} from "recharts";
 
 const TrendsPage = () => {
   const [trends, setTrends] = useState(null);
 
+  const backendUrl =
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:5050"
+      : "https://ottawa-er-backend.onrender.com";
+
   useEffect(() => {
-    fetch("https://ottawa-er-backend.onrender.com/api/trends")
+    fetch(`${backendUrl}/api/trends`)
       .then(res => res.json())
       .then(data => setTrends(data))
       .catch(err => console.error("Failed to fetch trends:", err));
-  }, []);
+  }, [backendUrl]);
 
   const daysOrder = [
     "Monday",
