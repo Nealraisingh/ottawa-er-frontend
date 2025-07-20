@@ -22,22 +22,27 @@ const WaitTimesList = () => {
     }
   };
 
+  const getMapsLink = (hospitalName) => {
+    const query = encodeURIComponent(hospitalName + " Ottawa");
+    return `https://www.google.com/maps/search/?api=1&query=${query}`;
+  };
+
   if (loading) {
     return (
-      <div className="wait-times-list" style={{ textAlign: "center", padding: "20px" }}>
-        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-blue-500 border-4 mx-auto"></div>
-        <p>Loading wait times…</p>
+      <div className="text-center py-6">
+        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-teal-500 border-4 mx-auto"></div>
+        <p className="text-teal-700 mt-2">Loading wait times…</p>
       </div>
     );
   }
 
   return (
-    <div className="wait-times-list" style={{ textAlign: "center" }}>
-      <h2>Current ER Wait Times</h2>
+    <div className="text-center">
+      <h2 className="text-2xl font-bold text-teal-800 mb-4">Current ER Wait Times</h2>
       {approvedSubmissions.length === 0 ? (
-        <p>No approved wait times yet. Check back soon!</p>
+        <p className="text-gray-600">No approved wait times yet. Check back soon!</p>
       ) : (
-        <ul style={{ listStyle: "none", padding: 0 }}>
+        <ul className="space-y-4">
           {approvedSubmissions.map((submission) => {
             const hours = Math.floor(submission.waitTime / 60);
             const minutes = submission.waitTime % 60;
@@ -46,18 +51,20 @@ const WaitTimesList = () => {
             return (
               <li
                 key={submission._id}
-                style={{
-                  marginBottom: "15px",
-                  fontSize: "1.3rem",
-                  color: "#bb1e1e",
-                  fontWeight: "600",
-                }}
+                className="text-lg font-semibold text-teal-700"
               >
                 <strong>{submission.hospitalName}</strong>: {hours} hr {minutes} min
                 <br />
-                <small style={{ color: "#666" }}>
-                  Submitted: {timestamp}
-                </small>
+                <small className="text-gray-600">Submitted: {timestamp}</small>
+                <br />
+                <a
+                  href={getMapsLink(submission.hospitalName)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block mt-1 text-sm text-teal-600 hover:underline"
+                >
+                  📍 Get Directions
+                </a>
               </li>
             );
           })}
