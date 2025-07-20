@@ -6,6 +6,7 @@ const AdminPage = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -14,6 +15,7 @@ const AdminPage = () => {
   }, [isAuthenticated]);
 
   const fetchSubmissions = async () => {
+    setLoading(true);
     try {
       const pendingRes = await fetch('https://ottawa-er-backend.onrender.com/admin/submissions');
       const pendingData = await pendingRes.json();
@@ -24,6 +26,8 @@ const AdminPage = () => {
       setApprovedSubmissions(approvedData);
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -87,12 +91,23 @@ const AdminPage = () => {
     );
   }
 
+  if (loading) {
+    return (
+      <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-blue-500 border-4"></div>
+        <p className="mt-4 text-blue-700 font-medium">Loading submissions…</p>
+      </div>
+    );
+  }
+
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
       <h2 className="text-3xl font-bold mb-6 text-center text-blue-800">Admin Dashboard</h2>
 
       <section className="mb-8">
-        <h3 className="text-2xl font-semibold mb-4">Pending Submissions</h3>
+        <h3 className="text-2xl font-semibold mb-4">
+          Pending Submissions <span className="text-yellow-600">({pendingSubmissions.length})</span>
+        </h3>
         {pendingSubmissions.length === 0 ? (
           <p className="text-gray-600">No pending submissions</p>
         ) : (
@@ -110,6 +125,9 @@ const AdminPage = () => {
                       {formatTime(submission.waitTime)}
                     </span>
                   </p>
+                  <span className="inline-block mt-2 px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded">
+                    Pending
+                  </span>
                 </div>
                 <div className="flex justify-between mt-4">
                   <button
@@ -132,7 +150,9 @@ const AdminPage = () => {
       </section>
 
       <section>
-        <h3 className="text-2xl font-semibold mb-4">Approved Submissions</h3>
+        <h3 className="text-2xl font-semibold mb-4">
+          Approved Submissions <span className="text-green-600">({approvedSubmissions.length})</span>
+        </h3>
         {approvedSubmissions.length === 0 ? (
           <p className="text-gray-600">No approved submissions</p>
         ) : (
@@ -150,6 +170,9 @@ const AdminPage = () => {
                       {formatTime(submission.waitTime)}
                     </span>
                   </p>
+                  <span className="inline-block mt-2 px-2 py-1 text-xs bg-green-100 text-green-800 rounded">
+                    Approved
+                  </span>
                 </div>
                 <div className="flex justify-end mt-4">
                   <button
