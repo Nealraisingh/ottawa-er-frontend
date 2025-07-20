@@ -70,6 +70,7 @@ const SubmissionForm = () => {
           <option>Ottawa General Hospital</option>
           <option>Queensway Carleton Hospital</option>
           <option>CHEO</option>
+          <option>Ottawa Civic Hospital</option>
         </select>
       </div>
 

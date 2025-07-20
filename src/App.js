@@ -35,8 +35,30 @@ function App() {
                   </div>
                 </div>
 
-                {/* Stats / Purpose */}
-                <div className="bg-white py-8">
+                {/* Main Content */}
+                <div
+                  id="wait-times"
+                  className="max-w-6xl mx-auto px-4 py-12 grid gap-8 md:grid-cols-2"
+                >
+                  {/* Wait Times */}
+                  <div className="bg-white shadow-lg rounded-xl p-6 hover:shadow-xl transition">
+                    <h2 className="text-2xl font-semibold mb-4 text-teal-800">
+                      Current Wait Times
+                    </h2>
+                    <WaitTimesList />
+                  </div>
+
+                  {/* Submission Form */}
+                  <div className="bg-white shadow-lg rounded-xl p-6 hover:shadow-xl transition">
+                    <h2 className="text-2xl font-semibold mb-4 text-teal-800">
+                      Submit an Update
+                    </h2>
+                    <SubmissionForm />
+                  </div>
+                </div>
+
+                {/* Why This Matters */}
+                <div className="bg-white py-12">
                   <div className="max-w-4xl mx-auto text-center px-4">
                     <h2 className="text-2xl font-bold text-teal-800 mb-4">
                       Why This Matters
@@ -58,28 +80,6 @@ function App() {
                         <p className="text-gray-600">Community Driven</p>
                       </div>
                     </div>
-                  </div>
-                </div>
-
-                {/* Main Content */}
-                <div
-                  id="wait-times"
-                  className="max-w-6xl mx-auto px-4 py-12 grid gap-8 md:grid-cols-2"
-                >
-                  {/* Wait Times */}
-                  <div className="bg-white shadow-lg rounded-xl p-6 hover:shadow-xl transition">
-                    <h2 className="text-2xl font-semibold mb-4 text-teal-800 flex items-center gap-2">
-                      🏥 Current Wait Times
-                    </h2>
-                    <WaitTimesList />
-                  </div>
-
-                  {/* Submission Form */}
-                  <div className="bg-white shadow-lg rounded-xl p-6 hover:shadow-xl transition">
-                    <h2 className="text-2xl font-semibold mb-4 text-teal-800 flex items-center gap-2">
-                      ✍️ Submit an Update
-                    </h2>
-                    <SubmissionForm />
                   </div>
                 </div>
 

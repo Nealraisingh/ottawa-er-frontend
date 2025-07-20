@@ -38,15 +38,27 @@ const WaitTimesList = () => {
 
   return (
     <div className="text-center">
-      <h2 className="text-2xl font-bold text-teal-800 mb-4">Current ER Wait Times</h2>
+      <h2 className="text-2xl font-bold text-teal-800 mb-4">
+        Current ER Wait Times
+      </h2>
       {approvedSubmissions.length === 0 ? (
-        <p className="text-gray-600">No approved wait times yet. Check back soon!</p>
+        <p className="text-gray-600">
+          No approved wait times yet. Check back soon!
+        </p>
       ) : (
         <ul className="space-y-4">
           {approvedSubmissions.map((submission) => {
             const hours = Math.floor(submission.waitTime / 60);
             const minutes = submission.waitTime % 60;
-            const timestamp = new Date(submission.timestamp).toLocaleString();
+
+            // ✅ Format timestamp without seconds
+            const timestamp = new Date(submission.timestamp).toLocaleString([], {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit',
+            });
 
             return (
               <li

@@ -2,30 +2,22 @@ import React, { useEffect, useState } from "react";
 import {
   BarChart,
   Bar,
-  LineChart,
-  Line,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
-  ResponsiveContainer
+  ResponsiveContainer,
 } from "recharts";
 
 const TrendsPage = () => {
   const [trends, setTrends] = useState(null);
-  const [chartType, setChartType] = useState("bar");
-
-  const backendUrl =
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:5050"
-      : "https://ottawa-er-backend.onrender.com";
 
   useEffect(() => {
-    fetch(`${backendUrl}/api/trends`)
-      .then(res => res.json())
-      .then(data => setTrends(data))
-      .catch(err => console.error("Failed to fetch trends:", err));
-  }, [backendUrl]);
+    fetch("https://ottawa-er-backend.onrender.com/api/trends")
+      .then((res) => res.json())
+      .then((data) => setTrends(data))
+      .catch((err) => console.error("Failed to fetch trends:", err));
+  }, []);
 
   const daysOrder = [
     "Monday",
@@ -34,7 +26,7 @@ const TrendsPage = () => {
     "Thursday",
     "Friday",
     "Saturday",
-    "Sunday"
+    "Sunday",
   ];
 
   const formatTime = (minutes) => {
@@ -45,33 +37,29 @@ const TrendsPage = () => {
 
   if (!trends) {
     return (
-      <div className="p-6">
-        <h1 className="text-2xl font-bold">Loading trends...</h1>
+      <div className="text-center py-6">
+        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-teal-500 border-4 mx-auto"></div>
+        <p className="text-teal-700 mt-2">Loading trends…</p>
       </div>
     );
   }
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
-      <h1 className="text-3xl font-bold mb-6 text-center text-blue-800">
-        ER Wait Time Trends (Averages by Day)
-      </h1>
-
-      <div className="flex justify-center mb-6">
-        <label className="mr-2 font-medium">Chart type:</label>
-        <select
-          value={chartType}
-          onChange={(e) => setChartType(e.target.value)}
-          className="border rounded px-2 py-1"
-        >
-          <option value="bar">Bar Chart</option>
-          <option value="line">Line Chart</option>
-        </select>
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero */}
+      <div className="bg-gradient-to-br from-teal-600 to-teal-500 text-white py-12 shadow">
+        <div className="max-w-4xl mx-auto text-center px-4">
+          <h1 className="text-4xl font-bold">ER Wait Time Trends</h1>
+          <p className="mt-2 text-lg">
+            Average wait times by day of the week, based on past community submissions.
+          </p>
+        </div>
       </div>
 
-      <div className="space-y-12 max-w-6xl mx-auto">
-        {Object.keys(trends).map(hospital => {
-          const chartData = daysOrder.map(day => ({
+      {/* Content */}
+      <div className="max-w-6xl mx-auto px-4 py-12 space-y-12">
+        {Object.keys(trends).map((hospital) => {
+          const chartData = daysOrder.map((day) => ({
             day,
             waitTime: trends[hospital][day] || 0,
           }));
@@ -79,41 +67,30 @@ const TrendsPage = () => {
           return (
             <div
               key={hospital}
-              className="bg-white rounded-xl shadow-md p-4"
+              className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition"
             >
-              <h2 className="text-xl font-semibold mb-4 text-blue-700">
+              <h2 className="text-2xl font-semibold mb-4 text-teal-800">
                 {hospital}
               </h2>
 
               <ResponsiveContainer width="100%" height={300}>
-                {chartType === "bar" ? (
-                  <BarChart data={chartData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="day" />
-                    <YAxis />
-                    <Tooltip formatter={(value) => formatTime(value)} />
-                    <Bar dataKey="waitTime" fill="#3b82f6" />
-                  </BarChart>
-                ) : (
-                  <LineChart data={chartData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="day" />
-                    <YAxis />
-                    <Tooltip formatter={(value) => formatTime(value)} />
-                    <Line
-                      type="monotone"
-                      dataKey="waitTime"
-                      stroke="#3b82f6"
-                      strokeWidth={2}
-                      dot={{ r: 4 }}
-                    />
-                  </LineChart>
-                )}
+                <BarChart data={chartData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="day" />
+                  <YAxis />
+                  <Tooltip formatter={(value) => formatTime(value)} />
+                  <Bar dataKey="waitTime" fill="#0d9488" /> {/* teal-600 */}
+                </BarChart>
               </ResponsiveContainer>
             </div>
           );
         })}
       </div>
+
+      {/* Footer */}
+      <footer className="bg-gray-100 text-center text-sm text-gray-600 py-4 mt-8">
+        © {new Date().getFullYear()} Ottawa ER Tracker — Made with ❤️ for the community
+      </footer>
     </div>
   );
 };
