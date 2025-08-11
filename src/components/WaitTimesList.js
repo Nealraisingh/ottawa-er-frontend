@@ -29,58 +29,71 @@ const WaitTimesList = () => {
 
   if (loading) {
     return (
-      <div className="text-center py-6">
-        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-teal-500 border-4 mx-auto"></div>
-        <p className="text-teal-700 mt-2">Loading wait times…</p>
+      <div className="flex flex-col items-center justify-center py-10">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-blue-500 border-4"></div>
+        <p className="text-blue-700 mt-4 text-lg font-medium">
+          Loading wait times…
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="text-center">
-      <h2 className="text-2xl font-bold text-teal-800 mb-4">
-        Current ER Wait Times
-      </h2>
+    <div>
+      <h1 className="text-3xl font-bold text-blue-900 mb-8">
+        Emergency Department Wait Times
+      </h1>
+
       {approvedSubmissions.length === 0 ? (
-        <p className="text-gray-600">
+        <p className="text-gray-600 text-lg">
           No approved wait times yet. Check back soon!
         </p>
       ) : (
-        <ul className="space-y-4">
+        <div className="space-y-6">
           {approvedSubmissions.map((submission) => {
             const hours = Math.floor(submission.waitTime / 60);
             const minutes = submission.waitTime % 60;
-
-            // ✅ Format timestamp without seconds
             const timestamp = new Date(submission.timestamp).toLocaleString([], {
-              year: 'numeric',
-              month: 'short',
-              day: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit',
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
             });
 
             return (
-              <li
+              <div
                 key={submission._id}
-                className="text-lg font-semibold text-teal-700"
+                className="bg-white p-6 rounded-xl shadow border"
               >
-                <strong>{submission.hospitalName}</strong>: {hours} hr {minutes} min
-                <br />
-                <small className="text-gray-600">Submitted: {timestamp}</small>
-                <br />
-                <a
-                  href={getMapsLink(submission.hospitalName)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block mt-1 text-sm text-teal-600 hover:underline"
-                >
-                  📍 Get Directions
-                </a>
-              </li>
+                <h2 className="text-xl font-semibold text-gray-900 mb-1">
+                  {submission.hospitalName}
+                </h2>
+                <p className="text-gray-500 text-sm mb-4">
+                  Submitted: {timestamp}
+                </p>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-blue-900 font-semibold text-lg">
+                    <span role="img" aria-label="clock">⏱</span>
+                    <span>
+                      {hours} hr {minutes} min
+                    </span>
+                  </div>
+                  <div className="flex gap-3">
+                    <a
+                      href={getMapsLink(submission.hospitalName)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-blue-900 text-white px-4 py-2 rounded-md hover:bg-blue-800"
+                    >
+                      Open Directions
+                    </a>
+                  </div>
+                </div>
+              </div>
             );
           })}
-        </ul>
+        </div>
       )}
     </div>
   );

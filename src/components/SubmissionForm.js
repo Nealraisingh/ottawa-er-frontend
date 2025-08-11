@@ -54,13 +54,13 @@ const SubmissionForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <h2 className="text-xl font-semibold mb-4">Submit Updated Wait Time</h2>
-
+    <form onSubmit={handleSubmit} className="space-y-5">
       <div>
-        <label className="block mb-1 font-medium">Select Hospital</label>
+        <label className="block mb-1 font-medium text-gray-800">
+          Select Hospital
+        </label>
         <select
-          className="w-full border rounded-lg p-2"
+          className="w-full border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-lg p-2"
           value={hospital}
           onChange={(e) => setHospital(e.target.value)}
           required
@@ -76,20 +76,24 @@ const SubmissionForm = () => {
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block mb-1 font-medium">Hours</label>
+          <label className="block mb-1 font-medium text-gray-800">
+            Hours
+          </label>
           <input
             type="number"
-            className="w-full border rounded-lg p-2"
+            className="w-full border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-lg p-2"
             min="0"
             value={hours}
             onChange={(e) => setHours(e.target.value)}
           />
         </div>
         <div>
-          <label className="block mb-1 font-medium">Minutes</label>
+          <label className="block mb-1 font-medium text-gray-800">
+            Minutes
+          </label>
           <input
             type="number"
-            className="w-full border rounded-lg p-2"
+            className="w-full border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-lg p-2"
             min="0"
             max="59"
             value={minutes}
@@ -100,7 +104,7 @@ const SubmissionForm = () => {
 
       <button
         type="submit"
-        className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50"
+        className="w-full bg-blue-900 text-white py-2 rounded-lg hover:bg-blue-800 transition disabled:opacity-50 font-semibold"
         disabled={loading}
       >
         {loading ? "Submitting..." : "Submit"}
