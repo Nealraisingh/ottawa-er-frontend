@@ -6,6 +6,9 @@ import AdminPage from './components/AdminPage';
 import Navbar from './components/Navbar';
 import TrendsPage from './pages/TrendsPage';
 
+
+
+
 function App() {
   return (
     <Router>

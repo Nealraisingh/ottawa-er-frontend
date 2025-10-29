@@ -56,9 +56,20 @@ const AdminPage = () => {
     if (data.success) {
       setIsAuthenticated(true);
       setError('');
+      // set flag so Navbar can show Admin link (client-side convenience)
+      try { localStorage.setItem('isAdmin', 'true'); } catch(e) { /* ignore */ }
     } else {
       setError('Incorrect password');
     }
+  };
+
+  // logout clears the flag and returns to homepage
+  const logoutAdmin = () => {
+    try { localStorage.removeItem('isAdmin'); } catch(e) { /* ignore */ }
+    setIsAuthenticated(false);
+    setPassword('');
+    // navigate to home
+    window.location.href = '/';
   };
 
   const formatTime = (minutes) => {
@@ -102,7 +113,17 @@ const AdminPage = () => {
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
-      <h2 className="text-3xl font-bold mb-6 text-center text-blue-800">Admin Dashboard</h2>
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-3xl font-bold text-blue-800">Admin Dashboard</h2>
+        <div>
+          <button
+            onClick={logoutAdmin}
+            className="px-3 py-2 bg-gray-200 rounded hover:bg-gray-300 text-sm"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
 
       <section className="mb-8">
         <h3 className="text-2xl font-semibold mb-4">
